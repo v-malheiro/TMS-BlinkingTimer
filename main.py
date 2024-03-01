@@ -30,6 +30,12 @@ class CounterApp:
         self.start_button = tk.Button(self.master, text="Iniciar", command=self.start_process)
         self.start_button.pack(anchor="center")
 
+        self.pause_button = tk.Button(self.master, text="Pausar", command=self.pause_process, state="disabled")
+        self.pause_button.pack(anchor="center")
+
+        self.resume_button = tk.Button(self.master, text="Retomar", command=self.resume_process, state="disabled")
+        self.resume_button.pack(anchor="center")
+
         self.restart_button = tk.Button(self.master, text="Reiniciar", command=self.restart_process, state="disabled")
         self.restart_button.pack(anchor="center")
 
@@ -47,6 +53,22 @@ class CounterApp:
             self.stop_button.config(state="normal")
             self.schedule_counter_increment()
 
+    def pause_process(self):
+        if self.running:
+            self.start_button.config(state="disable")
+            self.pause_button.config(state="disable")
+            self.resume_button.config(state="normal")
+            self.restart_button.config(state="normal")
+            self.stop_button.config(state="normal")
+    
+    def resume_process(self):
+        if self.running:
+            self.start_button.config(state="disable")
+            self.pause_button.config(state="normal")
+            self.resume_button.config(state="disable")
+            self.restart_button.config(state="normal")
+            self.stop_button.config(state="normal")
+    
     def restart_process(self):
         if self.running:
             self.master.after_cancel(self.timer_id)
@@ -87,7 +109,7 @@ class CounterApp:
     def flash_circle(self):
         if self.running:
             self.canvas.itemconfig(self.circle, state="normal")
-            self.master.after(300, self.hide_circle)
+            self.master.after(3000, self.hide_circle)
 
     def hide_circle(self):
         if self.running:
